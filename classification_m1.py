@@ -29,14 +29,15 @@ column_with_nan = df.columns[df.isnull().any()]
 for column in column_with_nan:
     row=0
     t=True
-    while row<1000 and t==True :
-        if df[column][row] != 0 and df[column][row] != 1 and pd.isna(df[column][row]) == True:
-            t=False
-        row+=1
-    if t==True:
-        df[column]=df[column].fillna(0)
-    else:
-        df[column]=df[column].fillna(df[column].median())
+    if(df[column].dtypes == 'float64'):
+        while row<1000 and t==True :
+            if df[column][row] != 0 and df[column][row] != 1 and pd.isna(df[column][row]) == True:
+                t=False
+            row+=1
+        if t==True:
+            df[column]=df[column].fillna(0)
+        else:
+            df[column]=df[column].fillna(df[column].median())
 
 #detection des valeurs aberrantes et supression des lignes
 for column in df:
